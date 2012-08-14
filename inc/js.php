@@ -21,7 +21,7 @@ class PulsePressJS {
 	}
 
 	function enqueue_scripts() {
-		global $wp_locale;
+		global $wp_locale, $authordata;;
 
 		wp_enqueue_script( 'utils' );
 		wp_enqueue_script( 'comment-reply' );
@@ -29,13 +29,17 @@ class PulsePressJS {
 		if ( is_user_logged_in() ) {
 			$users = get_users();
 			
+			$authordata_stash = $authordata;
 				
 			foreach($users as $person):
+				$authordata = $person;
+				$authordata->data->ID = $person->ID;
 				// var_dump($person);
-				$people[] = array( "@".$person->user_login, $person->display_name, get_avatar( $person->ID, 16 ) );
+				$the_author =  apply_filters('the_author', is_object($authordata) ? $authordata->display_name : null);
+				$people[] = array( "@".$person->user_login, $the_author, get_avatar( $person->ID, 16 ) );
 			endforeach;
 			
-			
+			$authordata = $authordata_stash;
 			wp_enqueue_script( 'suggest' );
 			wp_enqueue_script( 'jeditable', PULSEPRESS_JS_URL . '/jquery.jeditable.min.js', array( 'jquery' )  );
 			wp_enqueue_script( 'inner-autocomplete', PULSEPRESS_JS_URL . '/inner-autocomplete.js', array( 'jquery' )  );
