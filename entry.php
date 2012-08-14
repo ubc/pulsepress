@@ -58,7 +58,7 @@
 					<?php endif;?>
 					
 					<?php if ( current_user_can( 'edit_post', get_the_id() ) ) : ?>
-						| <a href="<?php echo ( get_edit_post_link( get_the_id() ) ); ?>" class="edit-post-link" title="edit post" data-postid="<?php the_ID(); ?>"><?php _e( 'Edit', 'pulse_press' ); ?></a>
+						| <a href="<?php echo ( get_edit_post_link( get_the_id() ) ); ?>" class="edit-post-link" title="<?php _e('edit post', 'pulse_press'); ?>" data-postid="<?php the_ID(); ?>"><?php _e( 'Edit', 'pulse_press' ); ?></a>
 					<?php endif; ?> 
 					
 					

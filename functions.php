@@ -804,8 +804,6 @@ add_action( 'after_signup_form', 'pulse_press_after_signup_form' );
 // Enable background
 add_custom_background("pulse_press_background_color");
 
-
-// Feed me
 add_theme_support( 'automatic-feed-links' );
 
 // will need to be changed for 3.3 and is is_main_query
