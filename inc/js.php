@@ -151,7 +151,7 @@ class PulsePressJS {
 			var ajaxUrl = "<?php echo esc_js( pulse_press_url( '/wp-admin/admin-ajax.php?pulse_pressajax=true' ) ); ?>";
 		<?php
 		endif;?>
-		var updateRate = "15000"; // 30 seconds
+		var updateRate = "30000"; // 30 seconds
 		var nonce = "<?php echo esc_js( $page_options['nonce'] ); ?>";
 		var login_url = "<?php echo $page_options['login_url'] ?>";
 		var templateDir  = "<?php esc_js( get_template_directory_uri() ); ?>";
