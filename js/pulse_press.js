@@ -1,5 +1,6 @@
 var loggedin = false;
 var author_avatar = null;
+
 jQuery(function($) {
 
 	edCanvas = document.getElementById('posttext');
@@ -48,6 +49,13 @@ jQuery(function($) {
 				}
 			});
 		});
+	}
+
+	window.send_to_editor = function( media ) {
+		if ( jQuery('textarea#posttext').length ) {
+			jQuery('textarea#posttext').val( jQuery('textarea#posttext').val() + media );
+			tb_remove();
+		}
 	}
 
 	window.onbeforeunload = function (e) {
@@ -1362,13 +1370,6 @@ jQuery(function($) {
 	}
 	localizeMicroformatDates();
 });
-
-function send_to_editor( media ) {
-	if ( jQuery('textarea#posttext').length ) {
-		jQuery('textarea#posttext').val( jQuery('textarea#posttext').val() + media );
-		tb_remove();
-	}
-}
 
 function newNotification(message) {
 	jQuery("#notify").stop(true).prepend(message + '<br/>')

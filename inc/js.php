@@ -14,14 +14,15 @@ class PulsePressJS {
 
 	function enqueue_styles() {
 		if ( pulse_press_user_can_post() && is_home() && is_user_logged_in() && current_user_can( 'upload_files' ) && pulse_press_get_option( 'allow_fileupload') ):
-		
+			
 			wp_enqueue_style( 'thickbox' );
 			wp_enqueue_script( 'thickbox' );
+			wp_enqueue_script( 'media-upload' );
 		endif;
 	}
 
 	function enqueue_scripts() {
-		global $wp_locale, $authordata;;
+		global $wp_locale, $authordata;
 
 		wp_enqueue_script( 'utils' );
 		wp_enqueue_script( 'comment-reply' );
@@ -55,7 +56,7 @@ class PulsePressJS {
 			} //bust the cache here
 		}
 		if(!is_page()){
-			wp_enqueue_script( 'pulse_pressjs', PULSEPRESS_JS_URL . '/pulse_press.min.js', array( 'jquery', 'utils' ), filemtime(PULSEPRESS_JS_PATH . '/pulse_press.min.js' ) );
+			wp_enqueue_script( 'pulse_pressjs', PULSEPRESS_JS_URL . '/pulse_press.js', array( 'jquery', 'utils' ), filemtime(PULSEPRESS_JS_PATH . '/pulse_press.min.js' ) );
 		}
 		
 		
