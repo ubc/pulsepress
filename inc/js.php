@@ -56,7 +56,7 @@ class PulsePressJS {
 			} //bust the cache here
 		}
 		if(!is_page()){
-			wp_enqueue_script( 'pulse_pressjs', PULSEPRESS_JS_URL . '/pulse_press.js', array( 'jquery', 'utils' ), filemtime(PULSEPRESS_JS_PATH . '/pulse_press.min.js' ) );
+			wp_enqueue_script( 'pulse_pressjs', PULSEPRESS_JS_URL . '/pulse_press.min.js', array( 'jquery', 'utils' ), filemtime(PULSEPRESS_JS_PATH . '/pulse_press.min.js' ) );
 		}
 		
 		
