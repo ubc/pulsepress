@@ -415,7 +415,7 @@ add_action( 'template_redirect' , 'pulse_press_init_at_names' );
 
 function pulse_press_add_head_content() {
 	if ( is_home() && is_user_logged_in() ) {
-		include ABSPATH . '/wp-admin/includes/media.php';
+		include_once( ABSPATH . '/wp-admin/includes/media.php' );
 	}
 }
 add_action( 'wp_head', 'pulse_press_add_head_content' );
