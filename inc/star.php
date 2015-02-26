@@ -23,8 +23,10 @@ function pulse_press_star_init($redirect=true)
 		
 		if(!pulse_press_is_star($post_id)):
 			pulse_press_add_star($post_id);
+			do_action('pulse_press_add_star');
 		else:
 			pulse_press_delete_star($post_id);
+			do_action('pulse_press_delete_star');
 		endif;
 		
 		if($redirect==""):

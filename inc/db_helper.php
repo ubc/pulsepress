@@ -88,6 +88,10 @@ function pulse_press_vote($post_id) {
 	// for knowing when to update this 
 	$date = pulse_press_get_gmt_time();
 	pulse_press_update_option( 'votes_updated',$date);
+	
+	//add hook
+	do_action('pulse_press_vote_up', $post_id);
+	
 	return pulse_press_add_user_post_meta($post_id,'vote',1);
 	
 }
@@ -103,10 +107,14 @@ function pulse_press_vote_down($post_id) {
 	// for knowing when to update this 
 	$date = pulse_press_get_gmt_time();
 	pulse_press_update_option( 'votes_updated',$date);
+	
+	//add hook
+	do_action('pulse_press_vote_down', $post_id);
+	
 	return pulse_press_add_user_post_meta($post_id,'vote',-1);
 	
 }
-function pulse_press_delete_vote($post_id) {
+function pulse_press_delete_vote($post_id, $action = null) {
 	// store the value in custom field 
 	
 	$votes = pulse_press_sum_votes($post_id) - 1;
@@ -119,6 +127,9 @@ function pulse_press_delete_vote($post_id) {
 	// for knowing when to update this 
 	$date = pulse_press_get_gmt_time();
 	pulse_press_update_option( 'votes_updated',$date);
+	
+	//add hook
+	do_action('pulse_press_vote_delete', $post_id, $action);
 	
 	return pulse_press_delete_user_post_meta($post_id,'vote');
 }
@@ -172,10 +183,15 @@ function pulse_press_get_total_votes_by_user($user_id) {
  *************************************************************/
 
 function pulse_press_add_star($post_id) {
+    //add hook
+    do_action('pulse_press_star_add');
+    
 	return pulse_press_add_user_post_meta($post_id,"star");
 }
 
 function pulse_press_delete_star($post_id) {
+    
+    do_action('pulse_press_star_delete');
 	return pulse_press_delete_user_post_meta($post_id,"star");
 }
 

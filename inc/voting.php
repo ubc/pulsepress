@@ -94,7 +94,7 @@ function pulse_press_voting_init($redirect=true)
 				if( pulse_press_is_vote($post_id) == null ):
 					pulse_press_vote($post_id);
 				else:
-					pulse_press_delete_vote($post_id);
+					pulse_press_delete_vote($post_id, 'vote');
 				endif;
 			break;
 			
@@ -109,14 +109,14 @@ function pulse_press_voting_init($redirect=true)
 					endif;
 	
 				elseif(  pulse_press_is_vote( $post_id ) > 0 ): // the user previously voted up
-					pulse_press_delete_vote($post_id); 
+					pulse_press_delete_vote($post_id, 'vote'); 
 					
 					if( $_GET['action'] == "votedown"  ):
 						
 						pulse_press_vote_down($post_id); // 
 					endif;
 				else:
-					pulse_press_delete_vote($post_id); 
+					pulse_press_delete_vote($post_id, 'votedown'); 
 					
 					if( $_GET['action'] == "vote"  ):
 						pulse_press_vote($post_id); // 
