@@ -184,14 +184,14 @@ function pulse_press_get_total_votes_by_user($user_id) {
 
 function pulse_press_add_star($post_id) {
     //add hook
-    do_action('pulse_press_star_add');
+    do_action('pulse_press_star_add', $post_id);
     
 	return pulse_press_add_user_post_meta($post_id,"star");
 }
 
 function pulse_press_delete_star($post_id) {
     
-    do_action('pulse_press_star_delete');
+    do_action('pulse_press_star_delete', $post_id);
 	return pulse_press_delete_user_post_meta($post_id,"star");
 }
 
