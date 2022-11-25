@@ -4,7 +4,7 @@ if ( !defined( 'DOING_AJAX' ) )
 @header( 'Content-Type: text/html; charset=' . get_option( 'blog_charset' ));
 
 class PulsePressAjax {
-	function dispatch() {
+	public static function dispatch() {
 		$action = isset( $_REQUEST['action'] )? $_REQUEST['action'] : '';
 		if(FORCE_SSL_ADMIN)
 			add_action( 'wp_ajax_'.$action, $action );
@@ -58,7 +58,8 @@ class PulsePressAjax {
 		if ( strlen( $term ) < 2 )
 			die(); // require 2 chars for matching
 		$results = $wpdb->get_col( "SELECT t.name FROM $wpdb->term_taxonomy AS tt INNER JOIN $wpdb->terms AS t ON tt.term_id = t.term_id WHERE tt.taxonomy = 'post_tag' AND t.name LIKE ( '%". like_escape( $wpdb->escape( $term ) ) . "%' )" );
-		echo join( $results, "\n" );
+		// echo join( $results, "\n" );
+		echo implode( "\n", $results );
 	}
 
 	function logged_in_out() {
@@ -359,7 +360,7 @@ class PulsePressAjax {
 				// Setup widget html if widget is visible
 				$comment_widget_html = '';
 				if ( $lc_widget )
-					$comment_widget_html = PulsePress_Recent_Comments::single_comment_html( $comment, $avatar_size );
+					$comment_widget_html = PulsePress_Recent_Comments::static_single_comment_html( $comment, $avatar_size );
 
 				$prepare_comments[] = array( "id" => $comment->comment_ID, "postID" => $comment->comment_post_ID, "commentParent" =>  $comment->comment_parent,
 					"html" => $comment_html, "widgetHtml" => $comment_widget_html );

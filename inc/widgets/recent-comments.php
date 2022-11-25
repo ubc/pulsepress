@@ -102,6 +102,28 @@ class PulsePress_Recent_Comments extends WP_Widget {
 		}
 		return $comment_url;
 	}
+
+	public static function static_comment_url_maybe_local( $comment ) {
+		// Only use the URLs #fragment if the comment is visible on the page.
+		// Works by detecting if the comment's post is visible on the page... may break if PulsePress decides to do clever stuff with comments when paginated
+		$comment_url = get_comment_link( $comment );
+		if ( defined( 'DOING_AJAX' ) && isset( $_GET['vp'] ) && is_array( $_GET['vp'] ) && in_array( $comment->comment_post_ID, $_GET['vp'] ) ) {
+			$comment_url = "#comment-{$comment->comment_ID}";
+		} else {
+			static $posts_on_page = false;
+			if ( false === $posts_on_page ) {
+				global $wp_query;
+				
+				$posts_on_page = array();
+				foreach ( (array)array_keys( (array) $wp_query->posts ) as $k )
+					$posts_on_page[$wp_query->posts[$k]->ID] = true;
+			}
+
+			if ( isset( $posts_on_page[$comment->comment_post_ID] ) )
+				$comment_url = "#comment-{$comment->comment_ID}";
+		}
+		return $comment_url;
+	}
 	
 	function recent_comments( $num_to_show ) {
 		global $wpdb;
@@ -152,7 +174,45 @@ class PulsePress_Recent_Comments extends WP_Widget {
 		$excerpt = wp_html_excerpt( $comment_content, 50 );
 		if ( $comment_content != $excerpt ) $comment_content = $excerpt.'&hellip;';
 
-		$comment_url = PulsePress_Recent_Comments::comment_url_maybe_local( $comment );
+		$comment_url = PulsePress_Recent_Comments::static_comment_url_maybe_local( $comment );
+
+		$row .= sprintf( '<td class="text">'.__( "%s on <a href='%s' class='tooltip' title='%s'>%s</a>" , 'pulse_press' ) . '</td></tr>', $author_html, $comment_url, esc_attr($comment_content), $post_title );
+		return $row;
+	}
+
+	public static function static_single_comment_html( $comment, $avatar_size ) {
+		$no_avatar = $avatar_size == '-1';
+		
+		if ( !$comment->comment_author ) $comment->comment_author = __( 'Anonymous', 'pulse_press' );
+		$author_name = $comment->comment_author;
+		$author_html = $comment->comment_author;
+		
+		$excerpt = wp_html_excerpt( $author_name, 20 );
+		if ( $author_name != $excerpt ) $author_name = $author_excerpt.'&hellip;';
+
+		$avatar = $no_avatar? '' : get_avatar( $comment, $avatar_size );
+		
+		$comment_author_url = $comment->comment_author_url ? esc_url( $comment->comment_author_url ) : '';
+		if ( $comment_author_url ) {
+			$avatar = "<a href='$comment_author_url' rel='nofollow'>$avatar</a>";
+			// entitities in comment author are kept escaped in the db and tags are not allowed, so no need of HTML escaping here
+			$author_html = "<a href='$comment_author_url' rel='nofollow'>$author_name</a>";
+		}
+		
+		$author_name = esc_attr( $author_name );
+		
+		$row  = "<tr>";
+		if ( !$no_avatar) $row .= "<td title='$author_name' class='avatar' style='height: ${avatar_size}px; width: ${avatar_size}px'>" . $avatar . '</td>';
+
+		$post_title = esc_html( strip_tags( get_the_title( $comment->comment_post_ID ) ) );
+		$excerpt = wp_html_excerpt( $post_title, 30 );
+		if ( $post_title != $excerpt ) $post_title = $excerpt.'&hellip;';
+
+		$comment_content = strip_tags( $comment->comment_content );
+		$excerpt = wp_html_excerpt( $comment_content, 50 );
+		if ( $comment_content != $excerpt ) $comment_content = $excerpt.'&hellip;';
+
+		$comment_url = PulsePress_Recent_Comments::static_comment_url_maybe_local( $comment );
 
 		$row .= sprintf( '<td class="text">'.__( "%s on <a href='%s' class='tooltip' title='%s'>%s</a>" , 'pulse_press' ) . '</td></tr>', $author_html, $comment_url, esc_attr($comment_content), $post_title );
 		return $row;

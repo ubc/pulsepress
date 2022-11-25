@@ -3,14 +3,21 @@
 add_shortcode("leaderboard","pulse_press_leaderboard");
 
 function pulse_press_leaderboard( $atts ) {
-	extract( shortcode_atts( array(
-		'num' 	=> null,
-		'query' =>false,
-		'html'	=>'',
-		'before'=>'',
-		'after' =>''
-	), $atts ) );
 	
+	$sc_atts = shortcode_atts( array(
+		'num'    => null,
+		'query'  => false,
+		'html'   => '',
+		'before' => '',
+		'after'  => ''
+	), $atts );
+
+	$num    = $sc_atts['num'];
+	$query  = $sc_atts['query'];
+	$html   = $sc_atts['html'];
+	$before = $sc_atts['before'];
+	$after  = $sc_atts['after'];
+
 	if($num == null)
 		$num = get_option('posts_per_page');
 	$html = $before.$html;
@@ -40,17 +47,27 @@ function pulse_press_leaderboard( $atts ) {
 add_shortcode("latest-posts","pulse_press_reporter");
 
 function pulse_press_reporter($atts){
-	extract( shortcode_atts( array(
-		'before_author' => '',
-		'before_date' => '',
-		'before_excerpt'=> '',
-		'num' 	=> null,
-		'query' =>false,
-		'html'	=>'',
-		'before'=>'',
-		'after' =>''
-	), $atts ) );
-	
+
+	$sc_atts = shortcode_atts( array(
+		'before_author'  => '',
+		'before_date'    => '',
+		'before_excerpt' => '',
+		'num'            => null,
+		'query'          => false,
+		'html'           => '',
+		'before'         => '',
+		'after'          => ''
+	), $atts );
+
+	$before_author  = $sc_atts['before_author'];
+	$before_date    = $sc_atts['before_date'];
+	$before_excerpt = $sc_atts['before_excerpt'];
+	$num            = $sc_atts['num'];
+	$query          = $sc_atts['query'];
+	$html           = $sc_atts['html'];
+	$before         = $sc_atts['before'];
+	$after          = $sc_atts['after'];
+
 	if($num == null)
 		$num = get_option('posts_per_page');
 	

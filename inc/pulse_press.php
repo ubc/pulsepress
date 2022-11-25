@@ -1,21 +1,31 @@
 <?php
 if ( !function_exists( 'pulse_press_returner' ) ) {
 	function pulse_press_returner( $value ) {
-        return create_function( '', 'return '.var_export( $value, true ).';' );
+        // return create_function( '', 'return '.var_export( $value, true ).';' );
+        return function() use ($value) { return var_export( $value, true ); };
 	}
 }
 
 if ( !function_exists( 'pulse_press_lambda' ) ) {
 function pulse_press_lambda( $args, $expression, $locals = array() ) {
-        $export_call = $locals? 'extract( '.var_export( $locals, true ).', EXTR_PREFIX_SAME, "ext");' : '';
-        return create_function( $args, $export_call.' return '.$expression.';' );
-}
+        // $export_call = $locals? extract( var_export( $locals, true ), EXTR_PREFIX_SAME, "ext") : '';
+        // return create_function( $args, $export_call.' return '.$expression.';' );
+        return function( $args ) use ( $locals, $expression ) {
+			if ( $locals ) {
+				$export_call = extract( $locals, EXTR_PREFIX_SAME, "ext" );
+			} else {
+				$export_call = '';
+			}
+
+			return $expression;
+		};
+	}
 }
 
 add_action( 'init', array( 'PulsePress', 'init' ) );
 
 class PulsePress {
-	function init() {
+	public static function init() {
 	    load_theme_textdomain( 'pulse_press', get_template_directory() . '/languages' );
 
 		add_filter( 'the_content', 'make_clickable' );
@@ -34,7 +44,7 @@ class PulsePress {
 	/**
 	 * Make sure the URL is loaded from the same domain as the frontend
 	 */
-	function url_filter( $url, $path = '' ) {
+	public static function url_filter( $url, $path = '' ) {
 		$parsed = parse_url( $url );
 		$host = ( isset( $parsed['host'] ) ) ? $parsed['host'] : '';
 		if (!false === strpos( 'http', $url) )
@@ -42,7 +52,7 @@ class PulsePress {
 		return $url;
 	}
 
-	function admin_url( $path ) {
+	public static function admin_url( $path ) {
 		return PulsePress::url_filter( admin_url( $path ) );
 	}
 

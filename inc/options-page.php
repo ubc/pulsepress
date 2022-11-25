@@ -6,7 +6,7 @@ class PulsePressOptions {
 
 	function init() {
 		// global $plugin_page;
-		add_theme_page( __( 'Theme Options', 'pulse_press' ), __( 'Theme Options', 'pulse_press' ), 'edit_theme_options', 'pulse_press-options-page', array( 'PulsePressOptions', 'page' ) );
+		add_theme_page( __( 'Theme Options', 'pulse_press' ), __( 'Theme Options', 'pulse_press' ), 'edit_theme_options', 'pulse_press-options-page', array( $this, 'page' ) );
 		
 	}
 	

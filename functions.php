@@ -580,10 +580,6 @@ function pulse_press_poweredby_link() {
 	return apply_filters( 'pulse_press_poweredby_link', sprintf( __( '<strong>%1$s</strong> is proudly powered by %2$s.', 'pulse_press' ), get_bloginfo( 'name' ), '<a href="http://wordpress.org/" rel="generator">WordPress</a>' )	);
 }
 
-if ( defined( 'IS_WPCOM' ) && IS_WPCOM ) {
-	add_filter( 'pulse_press_poweredby_link', pulse_press_returner( '<a href="http://wordpress.com/" rel="generator">Get a free blog at WordPress.com</a>' ) );
-}
-
 
 
 function pulse_press_background_color() {
