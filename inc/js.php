@@ -4,7 +4,7 @@ add_action( 'init', array( 'PulsePressJS', 'init' ) );
 
 class PulsePressJS {
 	
-	function init() {
+	static function init() {
 		if ( !is_admin() ) {
 			add_action( 'wp_print_scripts', array( 'PulsePressJS', 'enqueue_scripts' ) );
 			add_action( 'wp_print_styles', array( 'PulsePressJS', 'enqueue_styles' ) );
@@ -12,7 +12,7 @@ class PulsePressJS {
 		add_action( 'wp_head', array( 'PulsePressJS', 'print_options' ));
 	}
 
-	function enqueue_styles() {
+	static function enqueue_styles() {
 		if ( pulse_press_user_can_post() && is_home() && is_user_logged_in() && current_user_can( 'upload_files' ) && pulse_press_get_option( 'allow_fileupload') ):
 			
 			wp_enqueue_style( 'thickbox' );
@@ -21,7 +21,7 @@ class PulsePressJS {
 		endif;
 	}
 
-	function enqueue_scripts() {
+	static function enqueue_scripts() {
 		global $wp_locale, $authordata;
 
 		wp_enqueue_script( 'utils' );
@@ -110,7 +110,7 @@ class PulsePressJS {
 		wp_localize_script( 'pulsepress_wp-locale', 'wp_locale_txt', $wp_locale_txt);
 	}
 	
-	function print_options() {
+	static function print_options() {
 		get_currentuserinfo();
 		$page_options['nonce']= wp_create_nonce( 'ajaxnonce' );
 		$page_options['pulse_press_updates'] = 1;
