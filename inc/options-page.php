@@ -4,18 +4,18 @@ add_action( 'admin_menu', array( 'PulsePressOptions', 'init' ) );
 add_action( 'admin_init', array( 'PulsePressOptions', 'admin_init' ) );
 class PulsePressOptions {
 
-	function init() {
+	static function init() {
 		// global $plugin_page;
-		add_theme_page( __( 'Theme Options', 'pulse_press' ), __( 'Theme Options', 'pulse_press' ), 'edit_theme_options', 'pulse_press-options-page', array( $this, 'page' ) );
+		add_theme_page( __( 'Theme Options', 'pulse_press' ), __( 'Theme Options', 'pulse_press' ), 'edit_theme_options', 'pulse_press-options-page', array( 'PulsePressOptions', 'page' ) );
 		
 	}
 	
-	function admin_init(){
+	static function admin_init(){
 		register_setting( 'pulse_pressops', 'pulse_press_options', 'pulse_press_validate_options');
 	
 	}
 	
-	function page() {
+	static function page() {
 		global $pulse_press_options;
 				
 		$options = pulse_press_options();
