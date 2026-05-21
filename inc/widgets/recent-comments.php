@@ -1,8 +1,8 @@
 <?php
 
 class PulsePress_Recent_Comments extends WP_Widget {
-	function PulsePress_Recent_Comments() {
-		$this->WP_Widget( false, __( 'PulsePress Recent Comments', 'pulse_press' ), array( 'description' => __( 'Recent comments with avatars.', 'pulse_press' )));
+	function __construct() {
+		parent::__construct( false, __( 'PulsePress Recent Comments', 'pulse_press' ), array( 'description' => __( 'Recent comments with avatars.', 'pulse_press' )));
 		
 		add_action( 'comment_post', array(&$this, 'flush_widget_cache' ) );
 		add_action( 'wp_set_comment_status', array(&$this, 'flush_widget_cache' ) );

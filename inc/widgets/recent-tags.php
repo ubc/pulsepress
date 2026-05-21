@@ -1,8 +1,8 @@
 <?php
 
 class PulsePress_Recent_Tags extends WP_Widget {
-	function PulsePress_Recent_Tags() {
-		$this->WP_Widget( false, __( 'PulsePress Recent Tags', 'pulse_press' ), array( 'description' => __( 'The tags from the latest posts.', 'pulse_press' )));
+	function __construct() {
+		parent::__construct( false, __( 'PulsePress Recent Tags', 'pulse_press' ), array( 'description' => __( 'The tags from the latest posts.', 'pulse_press' )));
 		$this->default_num_to_show = 35;
 	}
 	
